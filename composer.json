@@ -1,0 +1,21 @@
+{
+  "name": "alexander89/actyx",
+  "description": "sdk to work with actyx.",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Alex Halemba",
+      "homepage": "https://github.com/alexander89"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "textalk/websocket": "^1.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Actyx\\": "lib"
+    }
+  }
+}
