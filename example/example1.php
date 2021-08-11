@@ -3,15 +3,16 @@
 namespace Example;
 
 ini_set('memory_limit', '8M');
-include  __DIR__ . '/../lib/AppManifest.php';
-include  __DIR__ . '/../lib/Client.php';
-include  __DIR__ . '/../lib/NetworkProtocol.php';
 require __DIR__ . '/../vendor/autoload.php';
+spl_autoload_register(function ($class_name) {
+  include __DIR__ . '/../lib/' . str_replace('\\', '/', substr($class_name, 6)) . '.php';
+});
 
-use Actyx;
+use Actyx\AppManifest;
+use Actyx\Client;
 
-$manifest = new Actyx\AppManifest('com.example.php.01', 'php test', '0.0.1');
-$actyx = new Actyx\Client($manifest);
+$manifest = new AppManifest('com.example.php.01', 'php test', '0.0.1');
+$actyx = new Client($manifest);
 $actyx->nodeId();
 $actyx->manifest();
 $actyx->preset();

@@ -97,7 +97,7 @@ class Client
    * query the current offset and the map of queued events to replicate
    * @return OffsetResult|null
    */
-  public function preset(): OffsetResult
+  public function preset(): ?OffsetResult
   {
     $id = $this->requestId++;
     $this->client->text(json_encode(array(
@@ -108,7 +108,7 @@ class Client
     )));
 
     do {
-      $res = new RpcOffsetMessage($this->client->receive());
+      $res = new Rpc\RpcOffsetMessage($this->client->receive());
     } while ($res->requestId < $id);
 
     return $res->payload;
@@ -158,7 +158,7 @@ class Client
 
     $res = [];
     do {
-      $response = new RpcQueryMessage($this->client->receive(), $eventTypes);
+      $response = new Rpc\RpcQueryMessage($this->client->receive(), $eventTypes);
       if ($response->requestId === $id && $response->type === 'next') {
         array_push($res, ...$response->payload);
       }
@@ -194,7 +194,7 @@ class Client
     $this->client->text($query);
 
     do {
-      $response = new RpcPublishResultsMessage($this->client->receive());
+      $response = new Rpc\RpcPublishResultsMessage($this->client->receive());
       if ($response->requestId === $id && $response->type === 'next' && $response->payload) {
         $res = $response->payload->data[0];
       }
